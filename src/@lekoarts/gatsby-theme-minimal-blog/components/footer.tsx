@@ -26,10 +26,10 @@ const Footer = () => {
       <div>
         <Link
           aria-label="Link to the yuucu's GitHub"
-          href="https://github.com/yuucu"
+          href="https://github.com/yuucu/yuucu-tech "
           target="_blank"
         >
-          GitHub: yuucu
+          site theme
         </Link>
       </div>
     </footer>
