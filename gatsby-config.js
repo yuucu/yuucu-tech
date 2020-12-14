@@ -30,8 +30,12 @@ module.exports = {
             url: `https://github.com/yuucu/`,
           },
           {
-            name: `Twitter`,
-            url: `https://twitter.com/`,
+            name: `Qiita`,
+            url: `https://qiita.com/yuucu`,
+          },
+          {
+            name: `Zenn`,
+            url: `https://zenn.dev/yuucu`,
           },
         ],
       },
