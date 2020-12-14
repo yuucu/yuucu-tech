@@ -6,6 +6,7 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
+    siteTitle: `yuucu-tech`,
     siteTitleAlt: `yuucu-tech`,
   },
   plugins: [
@@ -26,7 +27,7 @@ module.exports = {
         externalLinks: [
           {
             name: `GitHub`,
-            url: `https://github.com/`,
+            url: `https://github.com/yuucu/`,
           },
           {
             name: `Twitter`,
