@@ -8,6 +8,7 @@ module.exports = {
   siteMetadata: {
     siteTitle: `yuucu-tech`,
     siteTitleAlt: `yuucu-tech`,
+    siteLanguage: `ja`,
   },
   plugins: [
     {
@@ -24,6 +25,7 @@ module.exports = {
             slug: `/about`,
           },
         ],
+        formatString: "YYYY.MM.DD",
         externalLinks: [
           {
             name: `GitHub`,

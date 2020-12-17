@@ -1,0 +1,62 @@
+---
+title: "freenom で無料ドメインとってみる。"
+date: 2020-12-15
+slug: /20201215-freenom
+tags:
+  - Domain
+---
+
+
+# freenom とは
+https://www.freenom.com/ja/index.html
+
+ドメインが無料で取得できるサイトです。
+
+アカウント登録を行い、適当なドメインを取得してみます。
+
+
+## froonom - ドメイン取得
+
+欲しいドメイン名で検索します。
+
+
+<img width="600" alt="スクリーンショット 2020-12-16 0 46 08" src="https://user-images.githubusercontent.com/39527561/102240408-287f8c00-3f3b-11eb-8185-0d31df1f9118.png"/>
+
+今回は`yuucu-tech.tk`というドメインを取得しました。
+
+
+<img width="850" alt="スクリーンショット 2020-12-16 0 48 17" src="https://user-images.githubusercontent.com/39527561/102240422-2c131300-3f3b-11eb-9d7e-6f73cd705af8.png"/>
+
+
+
+## AWS - Route53での作業
+
+awsでの作業に写ります。
+
+Route53の画面へ行き、ホストゾーンを作成します。
+
+<img width="850" alt="スクリーンショット 2020-12-16 0 49 02" src="https://user-images.githubusercontent.com/39527561/102241665-8e204800-3f3c-11eb-8521-7e9031d7eba1.png"/>
+
+
+
+ドメイン名をfreenomで取得した`yuucu-teck.tk`に、  
+タイプをパブリックホストゾーンのままでホストゾーンを作成します。
+
+<img width="850" alt="スクリーンショット 2020-12-16 1 19 53" src="https://user-images.githubusercontent.com/39527561/102241881-d2abe380-3f3c-11eb-9b36-1cb56fb13f87.png"/>
+
+以上でホストゾーンの作成が終わりました。  
+以下画像の`タイプ: NS`の`値/トラフィックのルーティング先`にある  
+4つのネームサーバーはfreenom側でも登録する必要があるためこのページは開いたままにしておいてください。
+
+
+<img width="800" alt="スクリーンショット 2020-12-16 1 27 15" src="https://user-images.githubusercontent.com/39527561/102242878-e572e800-3f3d-11eb-8b4f-0df154db64ec.png"/>
+
+
+## freenom - ネームサーバー設定
+
+<img width="850" alt="スクリーンショット 2020-12-16 1 25 15" src="https://user-images.githubusercontent.com/39527561/102242735-bceaee00-3f3d-11eb-8784-d3fcf3f8db50.png"/>
+
+<img width="1222" alt="スクリーンショット 2020-12-16 1 25 32" src="https://user-images.githubusercontent.com/39527561/102242743-bfe5de80-3f3d-11eb-9ed4-b6384dffdd8d.png"/>
+
+
+
