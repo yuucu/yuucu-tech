@@ -1,9 +1,7 @@
-name: deploy s3
-
-on:
-  push:
-    branches:
-      - test
+name: build and push to s3
+on: push
+    # branches:
+    # - main
     # pull_request:
     # types: [closed]
 
@@ -16,7 +14,17 @@ jobs:
   steps:
     - name: Checkout
       uses: actions/checkout@2
+
     - name: setup node
       uses: actions/setup-node@1
       with:
-        node-version: '14.x'
+        node-version: '12.x'
+
+    - name: install
+      run: npm ci
+
+    - name: build
+      run: npm run build
+
+    - name: pwd
+      run: pwd && ls
