@@ -1,9 +1,10 @@
 ---
 title: "terraform"
-date: 2021-01-01
-slug: /template
+date: 2020-12-01
+slug: /terraform
 tags:
   - NONE
+published: false
 ---
 
 
@@ -20,7 +21,23 @@ HCL記法
 
 ## tfenv導入
 
+rbenvやpyenvのノリで  
+terraformにもversion管理のツールがあるのでそちらを使います。
+
+macでの導入。
+```shell:terminal
 brew install tfenv
+```
+
+以下のコマンドでterraform最新versionを使用することができます。
+```shell:terminal
+tfenv install latest
+tfenv use latest
+```
 
 ##
+
+https://dev.classmethod.jp/articles/terraform-getting-started-with-aws/
+
+
 
