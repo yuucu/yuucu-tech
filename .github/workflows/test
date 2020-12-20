@@ -1,0 +1,22 @@
+name: deploy s3
+
+on:
+  push:
+    branches:
+      - test
+    # pull_request:
+    # types: [closed]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@2
+    - name: setup node
+      uses: actions/setup-node@1
+      with:
+        node-version: '14.x'
