@@ -38,4 +38,4 @@ jobs:
           CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws s3 sync ./public s3://$S3_BUCKET_NAME
-          aws cloudfront create-invalidation --distributon-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+          aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
