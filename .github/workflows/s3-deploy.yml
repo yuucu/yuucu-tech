@@ -35,7 +35,11 @@ jobs:
       - name: Copy files to the production website with the AWS CLI
         env:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws s3 sync ./public s3://$S3_BUCKET_NAME
+
+      - name: CloudFront cache clear
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
           aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
