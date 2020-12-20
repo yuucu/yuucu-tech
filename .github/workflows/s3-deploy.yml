@@ -1,11 +1,10 @@
 name: build and push to s3
 
 on:
-  branches:
-    - main
   pull_request:
     types: [closed]
-
+  branches:
+    - main
 
 jobs:
   deploy:
