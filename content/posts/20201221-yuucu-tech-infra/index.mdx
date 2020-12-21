@@ -1,0 +1,113 @@
+---
+title: "当サイトの技術セット&インフラについて"
+date: 2020-12-21
+slug: /20201221-yuucu-tech-infra
+tags:
+  - Gatsby
+  - AWS
+---
+
+
+当サイトの技術セットやインフラを紹介していこうと思います。
+
+
+## フロントエンド
+
+
+### Gatsby
+https://www.gatsbyjs.com/
+
+このサイトは主に、
+Reactベースの静的サイトジェネレーター(SSG)のGatsby.jsを使って作成されています。
+
+採用理由としては
+- Reactを少しだけ使ったことがあった
+- スターターライブラリで良い感じのデザインが組めそう
+https://www.gatsbyjs.com/starters/
+
+- git + Markdownで記事を管理できる
+
+のような感じです。
+
+
+もともとはZennの記事を書く際にgitで管理していて  
+雑記のような下書き記事が結構溜まってしまったので、  
+個人ブログなら雑記事でもアウトプットして良いよね...!という気持ちでえいやで作成しました。
+(結局Zennへのアウトプットは1記事...)
+
+思いつきでしたが、Gatsby、チュートリアルもわかりやすく、良かったです。
+
+
+
+## バックエンド
+ないです...(T.T)  
+なにか面白いAPI開発してこのサイトに追加するかもしれないです。
+
+## インフラ
+
+AWSで ** S3 + CloudFront + Route53 + ACM ** の静的サイト鉄板構成です。
+
+はじめはホスティングサービスのvercelを使用してデプロイしたのですが、  
+最高に簡単でお手軽すぎて逆にやめようとなりました。(勉強も兼ねて自分でインフラ管理したかった)
+
+https://vercel.com/  
+(お手軽にサイトを建てたい方にはすごくおすすめできるものだと思いました。)
+
+
+### AWS
+
+S3 + CloudFront + Route53 + ACM
+
+ざっくり以下の感じです。
+鉄板構成...!
+
+<img src="https://user-images.githubusercontent.com/39527561/102793574-78ec6300-43ed-11eb-9741-7be7764db176.png" alt="yuucu-tech-infra" width="800px"/>
+
+インフラは本当によく見る構成で、CI/CDは
+
+GitHubのmainブランチにpush(merge)された際に  
+GitHub Actionsを用いてビルド&デプロイを自動化しています。
+
+以下、GitHub Actionsのyamlです。  
+https://github.com/yuucu/yuucu-tech/blob/main/.github/workflows/s3-deploy.yml
+
+
+ここまでやって無料ホスティングサービスのvercelと並んだ感じな気がします...!
+
+
+でも、自分でインフラを建てたり、デプロイの自動化をしていく作業はとても楽しいですね...!\\(^.^)/
+
+
+
+
+## Gitでの開発フロー
+
+個人での開発なので一人ですが、  
+一応複数人を想定した感じのgit運用をしています。
+
+
+<img src="https://user-images.githubusercontent.com/39527561/102793579-7a1d9000-43ed-11eb-9bd2-1e38f6dd4ab1.png" alt="github-work-flow" width="500px"/>
+
+
+1. featureブランチでサイトの機能開発だったり、記事を作成。  
+1. それをdevelopブランチにマージ。  
+1. サイトの更新タイミングでmainブランチにマージ -> GitHub Actionsで自動デプロイされる。
+
+というフローで開発しています。
+
+
+## まとめ
+
+- Gatsby
+
+https://www.gatsbyjs.com/
+
+- AWS
+
+S3 + CloudFront + Route53 + ACM
+
+
+という感じです...!
+
+Gatsby触ることでReact理解だったり、  
+あんまり触れてこなかったGraphQLも勉強していけたらいいなという気持ちです。
