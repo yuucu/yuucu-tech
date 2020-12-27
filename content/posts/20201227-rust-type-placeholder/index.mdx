@@ -1,0 +1,83 @@
+---
+title: "Rustの\"Vec<_>\"は何か"
+date: 2020-12-27
+slug: /20201227-rust-type-placeholder
+tags:
+  - Rust
+---
+
+
+## はじめに
+Rustでcollectする際に良く出てくる"Vec<_>"について調べたメモです。
+
+## 結論
+**Vec<_>**: rustコンパイラに型推論をお任せするよの意
+
+## 調査メモ
+
+以下、実行できるrustファイルです。
+
+
+```java
+fn main() {
+
+    let vec01 = (0..10).map(|v| v * v).collect::<Vec<_>>();
+    println!("values=<{:?}>", vec01);
+    print_typename(vec01);
+    /*
+    # vec01
+    values=<[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]>
+    type=<alloc::vec::Vec<i32>>
+    */
+
+    let vec02 = (0..10).map(|v| v * v).collect::<Vec<isize>>();
+    println!("values=<{:?}>", vec02);
+    print_typename(vec02);
+    /*
+    # vec02
+    values=<[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]>
+    type=<alloc::vec::Vec<isize>>
+    */
+
+    let vec03: Vec<usize> = (0..10).map(|v| v * v).collect();
+    println!("values=<{:?}>", vec03);
+    print_typename(vec03);
+    /*
+    # vec03
+    values=<[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]>
+    type=<alloc::vec::Vec<usize>>
+    */
+}
+
+fn print_typename<T>(_: T) {
+    println!("type=<{}>", std::any::type_name::<T>());
+}
+```
+
+
+3種類のcollectの指定の仕方を試しています。
+結果を見て分かる通り、
+
+- rustに型推論を任せたvecはVec<i32\>
+- collect::<Vec<isize\>\>()で指定したvecは、vec<isize\>
+- 返り値の変数に型名(vec03: Vec<usize\> = ~)を書いた場合は、vec<usize\>
+
+という結果でした。
+
+
+```java
+let vec01 = (0..10).map(|v| v * v).collect::<Vec<_>>();
+let vec02 = (0..10).map(|v| v * v).collect::<Vec<isize>>();
+let vec03: Vec<usize> = (0..10).map(|v| v * v).collect();
+```
+
+
+## まとめ
+- collectする際に型をrustコンパイラに任せる場合は**Vec<_>**
+- 自分で明示的に型を指定したい場合は**返り値の型**か**collect部分に型**を記載する。
+
+
+
+## 参考
+
+https://stackoverflow.com/questions/34363984/what-is-vec
