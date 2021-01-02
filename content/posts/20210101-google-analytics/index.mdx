@@ -1,11 +1,16 @@
 ---
-title: "gatsby.jsで作成したサイトにGoogleAnalyticsを導入する。"
-date: 2021-01-02
-slug: /20201221-gatsby-google-analytics
+title: "gatsby.jsで作成したサイトにGoogleAnalyticsを導入する。 - 旧"
+date: 2021-01-01
+slug: /20210102-gatsby-google-analytics
 tags:
   - Gatsby
 ---
 
+2021年最新は[こちら](/20210102-gatsby-google-gtag)  
+(測定IDが`G-`からはじまるもの) 
+
+
+測定IDが`UA-`からはじまるものはこちらの記事で設定することができます。
 
 ## はじめに
 
@@ -41,11 +46,20 @@ module.exports = {
         trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID",
         // Defines where to place the tracking script - `true` in the head and `false` in the body
         head: true,
+        // Setting this parameter is also optional
+        respectDNT: true,
       },
     },
   ],
 }
 ```
+
+
+|  key  |  概要  |
+| ---- | ---- |
+|  trackingId  |  Google Analyticsで取得したtrackingId ( UA- からはじまるもの )  |
+|  head  |  headタグにいれるかどうか(基本入れる)  |
+|  respectDNT  |  追跡されたくないユーザは追跡しないオプション(訪問者のプライバシーを守るためにもONを推奨します)  |
 
 
 注意するのは、
