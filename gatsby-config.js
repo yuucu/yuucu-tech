@@ -11,7 +11,7 @@ module.exports = {
     author: `yuucu`,
     siteUrl: `https://www.yuucu-tech.com`,
     siteImage: `/og_image.png`,
-    siteDescription: `yuucuによる個人技術ブログになります。`,
+    siteDescription: `yuucuによる技術ブログになります。`,
     siteHeadline: `yuucu-tech`,
     siteLanguage: `ja`,
   },
@@ -69,7 +69,7 @@ module.exports = {
       options: {
         name: `yuucu-tech`,
         short_name: `yuucu-tech`,
-        description: `yuucuによる個人技術ブログになります。`,
+        description: `yuucuによる技術ブログになります。`,
         start_url: `/`,
         background_color: `#fff`,
         theme_color: `#6B46C1`,
