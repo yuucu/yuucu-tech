@@ -16,13 +16,20 @@ module.exports = {
     siteLanguage: `ja`,
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-google-analytics`,
+     {
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        // The property ID; the tracking code won't be generated without it
-        trackingId: "G-SK8W4P826C",
-        // Defines where to place the tracking script - `true` in the head and `false` in the body
-        head: true,
+        // You can add multiple tracking ids and a pageview event will be fired for all of them.
+        trackingIds: [
+          "G-SK8W4P826C", // Google Analytics / GA
+          // "AW-CONVERSION_ID", // Google Ads / Adwords / AW
+          // "DC-FLOODIGHT_ID", // Marketing Platform advertising products (Display & Video 360, Search Ads 360, and Campaign Manager)
+        ],
+        // This object is used for configuration specific to this plugin
+        pluginConfig: {
+          // Puts tracking script in the head instead of the body
+          head: true,
+        },
       },
     },
     {
