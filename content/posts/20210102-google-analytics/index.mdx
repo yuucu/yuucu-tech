@@ -1,0 +1,93 @@
+---
+title: "gatsby.jsで作成したサイトにGoogleAnalyticsを導入する。"
+date: 2021-01-02
+slug: /20201221-gatsby-google-analytics
+tags:
+  - Gatsby
+---
+
+
+## はじめに
+
+このサイトにGoogle Analytics導入した時のメモです。  
+基本公式のドキュメントを読んでいけばすんなり導入できるはずです。
+
+https://www.gatsbyjs.com/plugins/gatsby-plugin-google-analytics/
+
+
+
+## 導入
+
+まずはプラグインの導入。
+
+
+```shell
+npm install gatsby-plugin-google-analytics
+```
+
+## 設定
+
+あとは`gatsby-config.js`に設定を記載することでGoogle Analyticsが有効になります。
+
+
+```js
+// In your gatsby-config.js
+module.exports = {
+  plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        // The property ID; the tracking code won't be generated without it
+        trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID",
+        // Defines where to place the tracking script - `true` in the head and `false` in the body
+        head: true,
+      },
+    },
+  ],
+}
+```
+
+
+注意するのは、
+- デフォルトで `head: false` になっているため、`true`にすること
+- `gatsby-config.js`のなかに複数pluginsがある場合は必ず先頭にgoogle-analyticsのプラグインを持ってくる
+
+の２つです。
+
+
+
+```js
+// In your gatsby-config.js
+module.exports = {
+  plugins: [
+    // 必ずpluginsの先頭に持ってくること!
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID",
+        head: true,
+      },
+    },
+    // google-analytics以外を下に持ってくる
+    {
+      resolve: `HOGE_PLUGIN`,
+      options: {
+        // ~
+      },
+    },
+  ],
+}
+```
+
+
+
+
+## 参考
+
+- 公式サイト
+
+https://www.gatsbyjs.com/plugins/gatsby-plugin-google-analytics/
+
+- 各オプションを日本語で解説してくれているサイト
+
+https://www.ultra-noob.com/blog/2020/2020-03-10-%E3%82%84%E3%81%9F%E3%82%89%E8%A9%B3%E3%81%97%E3%81%84gatsby-plugin-google-analytics/
