@@ -8,9 +8,23 @@ module.exports = {
   siteMetadata: {
     siteTitle: `yuucu-tech`,
     siteTitleAlt: `yuucu-tech`,
+    author: `yuucu`,
+    siteUrl: `https://www.yuucu-tech.com`,
+    siteImage: `/og_image.png`,
+    siteDescription: `yuucuによる個人技術ブログになります。`,
+    siteHeadline: `yuucu-tech`,
     siteLanguage: `ja`,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        // The property ID; the tracking code won't be generated without it
+        trackingId: "G-SK8W4P826C",
+        // Defines where to place the tracking script - `true` in the head and `false` in the body
+        head: true,
+      },
+    },
     {
       resolve: `@lekoarts/gatsby-theme-minimal-blog`,
       // See the theme's README for all available options
