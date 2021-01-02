@@ -1,0 +1,88 @@
+---
+title: "gatsby.jsで作成したサイトにGoogleAnalyticsを導入する。 - 新"
+date: 2021-01-02
+slug: /20210102-gatsby-google-gtag
+tags:
+  - Gatsby
+---
+
+
+## はじめに
+
+前回導入したanalytics.jsを使用する方法は古いとのことなので、  
+新しい方の`gtag.js`を用いるプラグインを使用します。
+
+測定IDが `G-` からはじまるものはこちらのプラグインでないと動かないと思います。  
+逆に `UA-` から始まるものであれば[以前の記事](/20210102-gatsby-google-analytics)が参考になります。
+
+#### analytics.js -> gtag.js 参考
+
+- analytics.js から gtag.js に移行する
+https://developers.google.com/analytics/devguides/collection/gtagjs/migration?hl=ja
+
+
+- gatsby gtagプラグイン公式サイト
+https://www.gatsbyjs.com/plugins/gatsby-plugin-google-gtag/
+
+
+
+## 導入
+
+まずはプラグインの導入。  
+移行前にanalyticsのプラグインが残っていたら削除します。
+
+
+```shell
+npm rm gatsby-plugin-google-analytics
+```
+
+導入。
+
+```shell
+npm install gatsby-plugin-google-gtag
+```
+
+## 設定
+
+
+以下、最低限の設定です。  
+gatsby-config.jsに記載していきます。
+
+```js
+// In your gatsby-config.js
+module.exports = {
+  plugins: [
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        // You can add multiple tracking ids and a pageview event will be fired for all of them.
+        trackingIds: [
+          "GA-TRACKING_ID", // Google Analytics / GA
+        ],
+        // This object is used for configuration specific to this plugin
+        pluginConfig: {
+          // Puts tracking script in the head instead of the body
+          head: true,
+          respectDNT: true,
+        },
+      },
+    },
+  ],
+}
+```
+
+設定項目に関しては、以前のプラグインとほとんど変化ありません。
+
+|  key  |  概要  |
+| ---- | ---- |
+|  trackingId  |  Google Analyticsで取得したtrackingId ( G- からはじまるもの )  |
+|  head  |  headタグにいれるかどうか(基本入れる)  |
+|  respectDNT  |  追跡されたくないユーザは追跡しないオプション(訪問者のプライバシーを守るためにもONを推奨します)  |
+
+
+
+## 参考
+
+- 公式サイト
+https://www.gatsbyjs.com/plugins/gatsby-plugin-google-gtag/
+
