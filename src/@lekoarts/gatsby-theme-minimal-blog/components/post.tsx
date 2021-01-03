@@ -61,8 +61,15 @@ const Post = ({ data: { post } }: PostProps) => (
     <section
       sx={{
         my: 5,
-        // p: { fontSize: "16px" },
-        // li: { fontSize: "16px" },
+        h1: { fontSize: "40px" },
+        h2: { fontSize: "36px" },
+        h3: { fontSize: "32px" },
+        h4: { fontSize: "28px" },
+        h5: { fontSize: "24px" },
+        h6: { fontSize: "24px" },
+        p: { fontSize: "16px", color: "black" },
+        li: { fontSize: "16px" },
+        img: { maxWidth: "720px" },
         ".gatsby-resp-image-wrapper": { my: [4, 4, 5], boxShadow: shadow.join(`, `) },
         variant: `layout.content`,
       }}

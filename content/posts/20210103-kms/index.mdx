@@ -1,0 +1,103 @@
+---
+title: "KMS - Key Management ServiceをCLIから使ってみる。"
+date: 2021-01-03
+slug: /20210103-kms
+tags:
+  - AWS
+  - KMS
+---
+
+
+## はじめに
+
+- 公式サイト
+https://aws.amazon.com/jp/kms/
+
+lambdaで認証情報を扱う際にKMSを触った時のメモ書きになります。
+
+### KSMでマスターキーを作成する
+
+
+#### kms へアクセス
+![kmsへアクセス](https://storage.googleapis.com/zenn-user-upload/stiffqdnmnq4hks8441p7k5pywfr)
+
+#### キーの作成
+ キーの作成をクリック。
+
+![キーの作成](https://storage.googleapis.com/zenn-user-upload/ud6vso0d2zzizkno9yc9apvv73ko)
+
+#### キーの設定
+状況に応じて設定を変更する。
+
+![キーの設定](https://storage.googleapis.com/zenn-user-upload/doonkc5dqupr9ygxbwsz2c1o43c8)
+
+キーのタイプ
+
+|  設定  |  概要  |
+| ---- | ---- |
+|  対称  |  暗号化・復号に同じ鍵をつかうもの  |
+|  非対称  |  公開鍵暗号方式などの非対称鍵  |
+
+#### キー名
+
+適当な名前をつける。
+
+![](https://storage.googleapis.com/zenn-user-upload/31kcyh337g4ys2wnpfznirwyqpsc)
+
+#### キーの管理アクセス・キーの使用アクセス
+
+基本ログインしているユーザに付与で大丈夫そう。
+
+
+### KMS cliでの操作
+
+
+キーの情報を取得。
+
+```shell
+# 作成したマスターキーを取得。
+$ aws kms list-keys
+{
+    "Keys": [
+        {
+            "KeyId": "xxxxxxxxxxxxxx",
+            "KeyArn": "arn:yyyyyyyyyyyyyyyyyyyyyyyyy"
+        }
+    ]
+}
+
+# 変数格納
+$ export KEYID=arn:yyyyyyyyyyyyyyyyyyyyyyyyy
+
+
+```
+
+#### 暗号化
+
+`--plaintext` に渡すものは `base64` にしておかないといけないみたい
+
+```shell
+# KEYIDを用いて暗号化
+$ aws kms encrypt --key-id $KEYID --plaintext $(echo "test" | base64) --query CiphertextBlob --output text 
+AQICAHibmsB7UenOE73AZPaVRPCvb4H6UeE8l+hEJqV3pbp8AwHhdUCjyPO+k2K6W1q9yI26AAAAYzBhBgkqhkiG9w0BBwagVDBSAgEAME0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMMGkl/dOZe9zcntYkAgEQgCBf4B7cGHVsdfOa/vHldNMueaAe93mTfchdk6ShnF7pmg==
+```
+
+
+#### 複合
+先ほど出力された文字列を複合します。
+
+```shell
+# 複合(encryptedに上の文字列保存してます)
+$ aws kms decrypt --ciphertext-blob $(cat ./encrypted) --output text --query Plaintext 
+dGVzdAo=
+
+$ echo "dGVzdAo=" | base64 -d
+test
+```
+
+
+
+## 参考
+
+- https://aws.amazon.com/jp/kms/
+- https://dev.classmethod.jp/articles/10minutes-kms/
