@@ -1,0 +1,86 @@
+---
+title: "Golangの型まとめ"
+date: 2021-01-06
+slug: /20210106_golang_type
+tags:
+  - Golang
+---
+
+  # Goにおける型
+
+  ## 組み込み型
+
+
+  |  種類  |  型名  |
+  | ---- | ---- |
+  | 整数 | int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr, byte, rune|
+  |浮動小数点|float32, float64|
+  |複素数|complex64, complex128|
+  |文字列|strin|
+  |真偽値|bool|
+  |エラー|error|
+
+
+
+  ## コンポジット型
+
+  コンポジット型とは複数のデータを1つの集合として表す型になります。
+
+  #### 構造体
+
+  0個以上の変数を集合させたデータ構造   
+  構造体内の変数のことをフィールドと呼ぶ
+
+  ```go
+  // フィールドがない構造体
+  var empty struct{}
+
+  // フィールド3つ
+  var point struct {
+    ID   string
+    x, y int
+  }
+  ```
+
+  #### 配列
+
+  同じ型のデータを並べたデータ構造   
+  固定長のため、データの追加ができません。
+
+
+  ```go
+  // ゼロ値で初期化
+  var array [5]int
+
+  // 要素を定義
+  nums := [3]int{1, 2, 3}
+
+  // 要素数から配列数を推論
+  numbers := [...]int{1, 2, 3, 4, 5}
+  ```
+
+  #### スライス
+
+  同じ型のデータを並べたデータ構造   
+  可変長!
+
+
+  ```go
+  var slice []int
+  nums := []int{1,2,3}
+  ```
+
+
+  #### マップ
+
+  キーと値を組み合わせたデータ構造
+
+  ```go
+  var m map[string]int
+
+  user := map[string]int {
+    "hoge": 23,
+    "fuga": 12,
+  }
+  ```
+
