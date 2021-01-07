@@ -1,0 +1,92 @@
+---
+title: "Reactのjsxを素のhtmlに変換してみる"
+date: 2021-01-04
+slug: /20210104-react-jsx-to-html
+tags:
+  - React
+---
+
+
+  どうしても`dangerouslySetInnerHTML`に素のhtmlを突っ込む必要があったため調べました。
+
+  `ReactDOMServer.renderToStaticMarkup` 便利
+
+  # まとめ
+  ```typescript
+  import ReactDOMServer from 'react-dom/server';
+
+  function jsxToHtml(jsx: React.ReactElement): string {
+    return ReactDOMServer.renderToStaticMarkup(jsx);
+  }
+  ```
+
+  # メモ
+
+  テスト用のreactプロジェクト作成
+
+  ```shell
+  npx create-react-app react-ts-app --template typescript    
+  ```
+
+
+  App.tsxを編集
+
+  ```ts
+
+  import React from 'react';
+  import './App.css';
+  import ReactDOMServer from 'react-dom/server';
+
+  function jsxToHtml(jsx: React.ReactElement): string {
+    return ReactDOMServer.renderToStaticMarkup(jsx);
+  }
+
+  function App() {
+
+    let testVal = "hello"
+    let testJsx = (
+      <div className="test">
+        <ul>
+          <li>test1</li>
+          <li>test2</li>
+          <li>{testVal}</li>
+        </ul>
+      </div>
+    )
+
+    let resultHtml = jsxToHtml(testJsx);
+
+    return (
+      <div className="App">
+        <div>
+          <pre>
+            { resultHtml }
+          </pre>
+          <div dangerouslySetInnerHTML={{ __html: resultHtml }} />
+        </div>
+      </div>
+    );
+  }
+
+  export default App;
+
+  ```
+
+
+  ![画面](https://storage.googleapis.com/zenn-user-upload/3czy22xn63nngvxzyi2l5hmhtdcz)
+
+
+
+
+## html 整形
+
+  変換したhtmlは改行などされていないため、整形したければ以下プラグインを使用
+
+  https://www.npmjs.com/package/pretty
+
+  ```js
+  var pretty = require('pretty');
+   
+  pretty(STRING_OF_HTML);
+  ```
+

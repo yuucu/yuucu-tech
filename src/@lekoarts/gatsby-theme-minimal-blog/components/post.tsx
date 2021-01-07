@@ -61,9 +61,9 @@ const Post = ({ data: { post } }: PostProps) => (
     <section
       sx={{
         my: 5,
-        h1: { fontSize: "40px" },
-        h2: { fontSize: "36px" },
-        h3: { fontSize: "32px" },
+        h1: { fontSize: "40px", borderBottom: "1px solid #eaecef", marginTop: "20px important" },
+        h2: { fontSize: "36px", borderBottom: "1px solid #eaecef", marginTop: "20px important" },
+        h3: { fontSize: "32px", borderBottom: "1px solid #eaecef", marginTop: "20px important" },
         h4: { fontSize: "28px" },
         h5: { fontSize: "24px" },
         h6: { fontSize: "24px" },
