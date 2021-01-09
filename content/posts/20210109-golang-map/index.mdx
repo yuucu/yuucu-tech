@@ -1,0 +1,93 @@
+---
+title: "Golang - マップ tips"
+date: 2021-01-09
+slug: /20210109-golang-map
+tags:
+  - Golang
+---
+
+
+
+
+
+## マップの操作
+
+### 値の初期化
+
+```go
+empty := map[string]int{}
+mapMake := make(map[string]int)
+mapCap := make(map[string]int, 10)
+```
+
+### key, valueの存在有無取得
+
+他の言語で言う、 `map.contains()` みたいなものも同じ書き方で取得できます。   
+シンプルで良いですね..!
+
+```go
+m := map[string]int{
+  "test1": 11,
+  "test2": 22,
+}
+
+test1Num := m["test1"]
+// 11
+fmt.Println(test1Num)
+
+test1Num, ok := m["test1"]
+if ok {
+  // true
+  fmt.Println(ok)
+  // 11
+  fmt.Println(test1Num)
+}
+
+_, ok = m["hogehoge"]
+// false
+fmt.Println(ok)
+```
+
+
+
+### マップを用いてユニークなスライスを生成
+
+マップはキーをセットとして保持する特性があるため、   
+重複チェックに使えたりします。
+
+空の構造体を用いることでメモリ要領を取りません。
+
+```
+A struct{} takes up no space.
+```
+
+
+マップのキーにユニークにしたいスライスの値をどんどん追加していくことで   
+重複を排除することができます。
+
+```go
+package main
+
+import (
+  "fmt"
+)
+
+func main() {
+
+  nums := []int{1, 2, 3, 4, 4, 5, 5, 6}
+  unique := make([]int, 0, len(nums))
+
+  tmpMap := make(map[int]struct{})
+  for _, v := range nums {
+    if _, ok := tmpMap[v]; ok {
+      continue
+    }
+    unique = append(unique, v)
+    tmpMap[v] = struct{}{}
+  }
+  // [1, 2, 3, 4, 5, 6]
+  fmt.Println(unique)
+}
+
+```
+
