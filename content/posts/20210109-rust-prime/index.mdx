@@ -1,0 +1,130 @@
+---
+title: "Rustで素数判定"
+date: 2021-01-09
+slug: /20210109-rust-prime
+tags:
+  - Rust
+  - アルゴリズム
+---
+
+## 素数判定
+
+### 普通の素数判定
+
+素数判定をする際、愚直に実装すると以下のようになると思います。
+
+```java
+fn main() {
+    let test_num = 15;
+    let res = is_prime(test_num);
+    println!("{}", res);
+}
+
+fn is_prime(n: usize) -> bool {
+    if n < 2 {
+        return false;
+    }
+    if n == 2 {
+        return true;
+    }
+    let mut result = true;
+    // nまで判定
+    for i in 2..n {
+        if n % i == 0 {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+```
+
+2以下の数字に関してはそのまま返すとして、   
+それ以上の数字(0..n)は剰余が0であれば、割り切れるということで素数ではないという判定をしています。
+
+これでも良いのですが計算量がO(n)になってしまいます。
+
+例えば30で割り切れる数は以下のものがありますが、   
+計算式右辺と計算結果が上下反転していることがわかります。
+
+```
+30 / 2 = 15
+30 / 3 = 10
+30 / 5 = 6
+30 / 6 = 5
+30 / 10 = 3
+30 / 15 = 2
+```
+
+当然ですが、2で割り切れるということは15でも割り切れるということなので   
+*** 素数判定する際最後の数字まで判定していく必要はありません ***。
+
+具体的な境界値ですが30の例でいくと5と6の間にあり、
+その数字は√30 になります。
+
+### 素数判定(改善)
+
+なので0..nまで判定する必要はなく、0..√nまで素数判定することができますO(√n)。
+
+
+```java
+fn main() {
+    let test_num = 13;
+    let res = is_prime(test_num);
+    println!("{}", res);
+}
+
+fn is_prime(n: usize) -> bool {
+    if n < 2 {
+        return false;
+    }
+    if n == 2 {
+        return true;
+    }
+    let mut result = true;
+
+    // √nまで判定
+    let s_root = (n as f64).sqrt() as usize;
+    for i in 2..=s_root {
+        if n % i == 0 {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+```
+
+
+## 約数列挙
+
+このアイデアを用いることで、約数列挙もO(√n)で列挙できます。   
+割り切れた際に商も追加してあげることで実現しています。
+
+
+```java
+fn main() {
+    let res = make_divitors(10);
+    // [1, 2, 5, 10]
+    println!("{:?}", res);
+}
+
+fn make_divitors(n: usize) -> Vec<usize> {
+    let mut res = Vec::new();
+    let s_root = (n as f64).sqrt() as usize;
+    for i in 1..=s_root {
+        if n % i == 0 {
+            // 割り切れた数字を追加
+            res.push(i);
+            // 商を求める
+            let div = n / i;
+            // 100 / 10 = 10みたいな場合に同じものを追加しないように
+            if div != i {
+                res.push(div);
+            }
+        }
+    }
+    res.sort();
+    return res;
+}
+```
