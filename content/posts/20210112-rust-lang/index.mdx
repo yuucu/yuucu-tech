@@ -1,0 +1,160 @@
+---
+title: "Rustの参照と借用 メモ"
+date: 2021-01-12
+slug: /20210112-rust-lang
+tags:
+  - Rust
+---
+
+Rustには所有権という概念が存在する。   
+この所有権により、メモリ安全かつGCなしを実現しています。
+
+https://doc.rust-jp.rs/book-ja/ch04-01-what-is-ownership.html
+
+
+### 所有権
+
+Rustは各値が所有者と呼ばれる変数をもちます。
+
+```
+fn main() {
+    // numsが所有権を持つ
+    let nums = vec![1, 2, 3];
+}
+```
+
+### 所有権の移動
+
+最初は`nums`にあった所有権が代入により`tmp_nums`に移動します。
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    // 所有権の移動
+    let tmp_nums = nums;
+}
+```
+
+
+`nums` にあった所有権が `tmp_nums` へ移動してしまったので   
+以下のソースコードはコンパイルエラー になってしまう。
+
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    // 所有権がtmp_numsへ移動
+    let tmp_nums = nums;
+
+    // コンパイルエラー
+    println!("{:?}", nums);
+}
+```
+
+
+--- 
+
+プリミティブ型に関しては、代入しても所有権が移動しない
+
+```java
+fn main() {
+    let num = 1_usize;
+    let tmp_num = num;
+
+    println!("{}", num);
+    println!("{}", tmp_num);
+}
+```
+
+
+
+### 借用
+
+値を代入するたびに変数が使えなくなってしまうと困るので***借用***という仕組みで解決する。
+
+`&` を用い、値そのものを渡すのではなく、
+参照をわたすことでコンパイルエラーを解決することができます。
+
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    // 借用
+    let tmp_nums = &nums;
+
+    println!("{:?}", nums);
+    println!("{:?}", tmp_nums);
+}
+```
+
+---
+
+もちろん関数に値を渡す場合も、所有権の移動は発生する。   
+以下のプログラムもコンパイルエラーを起こす。
+
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    // 所有権が移動
+    let plus_one_nums = plus_one(nums);
+
+    // コンパイルエラー
+    println!("{:?}", nums);
+}
+
+fn plus_one(nums: Vec<usize>) -> Vec<usize> {
+    nums.iter().map(|v| v + 1).collect()
+}
+```
+
+引数に&をつけることで、借用を用い   
+コンパイルエラーを解決することができる。
+
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    let plus_one_nums = plus_one(&nums);
+
+    // [1, 2, 3]
+    println!("{:?}", nums);
+    // [2, 3, 4]
+    println!("{:?}", plus_one_nums);
+}
+
+fn plus_one(nums: &Vec<usize>) -> Vec<usize> {
+    nums.iter().map(|v| v + 1).collect()
+}
+```
+
+### 可変参照
+
+参照はポインタとは違うので参照を変更しようとするとコンパイルエラー が起こる。
+
+```java
+fn main() {
+    let nums = vec![1, 2, 3];
+    change_nums(&nums);
+
+    println!("{:?}", nums);
+}
+
+fn change_nums(nums: &Vec<usize>) {
+    // コンパイルエラー
+    nums[0] = 999
+}
+```
+
+こちらを解決するには、   
+可変参照と言われる`&mut`というキーワードを使用する。
+
+```java
+fn main() {
+    let mut nums = vec![1, 2, 3];
+    change_nums(&mut nums);
+
+    // [999, 2, 3]
+    println!("{:?}", nums);
+}
+
+fn change_nums(nums: &mut Vec<usize>) {
+    nums[0] = 999
+}
+```
+
