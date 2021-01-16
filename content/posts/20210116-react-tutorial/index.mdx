@@ -1,0 +1,127 @@
+---
+title: "React & typescript でHello, World!"
+date: 2021-01-16
+slug: /20210116-react-tutorial
+tags:
+  - React
+  - TypeScript
+---
+
+## はじめに
+
+React & typescript でHello, World!を行っていきます。
+
+## yarn
+
+`yarn`とはFacebook製のnpm改良版みたいなものです。
+
+パッケージのインストールが高速だったり、コマンドが簡潔になっていたりします。
+
+インストールはこちらから。   
+https://classic.yarnpkg.com/en/docs/install#mac-stabl://classic.yarnpkg.com/en/docs/install#mac-stable
+
+
+## create React
+
+`create-react-app`   
+Reactで新規のプロジェクトを作る際によく使われているコマンドになります。   
+こちらもFacebook製ですね。(https://github.com/facebook/create-react-app)
+
+typescript環境のreactプロジェクトを構築。
+
+```
+npx create-react-app hello-world --template typescript
+```
+
+npxコマンドとはnpmのパッケージをインストールしていなくても実行できる機能です。
+
+## Hello World
+
+
+作成されたプロジェクトのディレクトリに移動し、起動してみます。
+
+```
+cd hello-world
+yarn start
+```
+
+ブラウザで`localhost:3000`へアクセスすると確認することができます。
+
+<img width="1200" alt="react top page" src="https://user-images.githubusercontent.com/39527561/104797970-044aef80-5806-11eb-89dc-b97ab32338ec.png"/>
+
+
+画像にもあるように`(Edit src/App.tsx and save to reload)`   
+`src/App.tsx`を編集してみましょう。
+
+初期コード
+
+```tsx
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+以下のように編集してみましょう。
+
+```tsx
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          // 編集!
+          Hello, World!
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+ソースコードを編集して保存するだけで、ブラウザでの表示も自動で変更されます(ホットリロード機能)
+
+<img width="866" alt="react hello world" src="https://user-images.githubusercontent.com/39527561/104798125-68ba7e80-5807-11eb-8492-17640d32b77e.png"/>
+
+
+
+これでHello, World!完了です\\(^^)!
