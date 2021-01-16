@@ -1,0 +1,125 @@
+---
+title: "javascriptでの非同期処理をまとめる"
+date: 2021-01-16
+slug: /20210116-js-asynchronousl
+tags:
+  - JavaScript
+  - TypeScript
+---
+
+## 非同期処理
+
+javascriptでは時間のかかる処理はほとんど非同期前提です。  
+普通は、コードを上から１行ずつ実行していき、その行の処理が完了するまで次の行には進みません。
+
+以下のコードを実行してみます。
+
+```ts
+const hello = (ms: number) => {
+  setTimeout(() => {
+    console.log("hello!");
+  }, ms);
+}
+
+const exec = () => {
+  hello(2000);
+  console.log("good bye");
+}
+
+exec();
+```
+
+typescriptコンパイラでjsに変換し、nodeで実行します。
+
+```
+tsc main.ts
+node main.js
+```
+
+出力
+```
+good bye
+hello!
+```
+
+
+メイン関数では以下の順番で処理を書いたのに`good bye` が先に出力されています。
+
+```ts
+const exec = () => {
+  hello(2000);
+  console.log("good bye");
+}
+```
+
+これはhello()関数内で書いた`setTimeout()`が指定した時間だけ遅延して任意の関数を実行するもので   
+非同期で実行されているためです。
+
+javascriptではファイルのロードやAPIとの通信する際はほとんどが非同期での処理になっています。
+
+非同期処理を待つ方法を見ていきます。
+
+## Promise
+
+まずは、ES6から導入されたPromiseを使ってみます。
+
+```ts
+const wait = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const exec = () => {
+  console.log("hello");
+  wait(2000).then(() => {
+    console.log("good bye");
+  });
+}
+
+exec();
+```
+
+こちらを実行すると   
+`hello -> 時間が経ってから -> good bye`   
+という流れで出力されます。
+
+wait関数でPromiseオブジェクトを返却し、   
+そのオブジェクトに対して、`.then()`のメソッドチェーンを繋ぐことで   
+非同期処理をひとつひとつ処理が終わるのを待って順番に実効することができます。
+
+ただ`.then()`を書いていくやり方でも良いのですが、   
+もっと簡潔に書ける方法が存在します。
+
+
+## async/await
+
+
+`async/await` というPromiseのシンタックスシュガーを用います。
+
+先ほどのコードが async/await を使うと以下のようになります。
+
+```ts
+const wait = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const exec = async () => {
+  console.log("hello");
+  await wait(2000);
+  console.log("good bye");
+}
+
+exec();
+```
+
+`async`で定義されたAsync関数は   
+Promiseオブジェクトに対して`await`を先頭に置くことで処理の実行を待ってくれるようになります。
+
+コードを見て直感的に何をやっているかわかりやすい感じになりました。
+
+
+## おわりに
+
+`Promise`を理解して、`async/await` で記述できるようになれば   
+非同期処理も怖く無くなってくるのではないのでしょうか\\(^.^)
+
+最後まで読んでいただき、ありがとうございました。

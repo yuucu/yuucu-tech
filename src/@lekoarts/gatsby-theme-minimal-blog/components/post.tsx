@@ -69,7 +69,7 @@ const Post = ({ data: { post } }: PostProps) => (
         h6: { fontSize: "24px" },
         p: { fontSize: "16px", color: "black" },
         li: { fontSize: "16px" },
-        img: { maxWidth: "720px" },
+        img: { maxWidth: "720px", marginBottom: "8px" },
         ".gatsby-resp-image-wrapper": { my: [4, 4, 5], boxShadow: shadow.join(`, `) },
         variant: `layout.content`,
       }}
